@@ -68,19 +68,19 @@ function act(p, s, blad, aant, kleur){
 }
 
 var d=document,m=d.createElement("div");
-m.style="position:fixed;top:20px;right:20px;background:white;padding:15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:600px;";
-m.innerHTML="<h3>Selecteer opties</h3>";
+m.style="position:fixed;top:20px;right:20px;background:white;padding:15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:900px;";
+m.innerHTML="<h3>Opties</h3>";
 
 // Percentages
 m.innerHTML += "<div><strong>Percentage:</strong><br>";
 var percents = [0,1,2,3,4,5,6,7,8,9,10,11,15,20,25,30,35,40,45,50,55,60,65,70];
-for (var i = 0; i < percents.length; i += 4) {
-  m.innerHTML += "<div style='display:flex;gap:10px;margin-bottom:5px;'>";
-  for (var j = i; j < i + 4 && j < percents.length; j++) {
+for (var i = 0; i < percents.length; i += 8) {
+  m.innerHTML += "<div style='display:flex;gap:10px;margin-bottom:5px;flex-wrap:wrap;'>";
+  for (var j = i; j < i + 8 && j < percents.length; j++) {
     var p = percents[j];
     var checked = (p === 0) ? "checked" : "";
     var labelText = (p === 5 || p === 10) ? "<strong>" + p + "%</strong>" : p + "%";
-    m.innerHTML += "<label style='flex:1;'><input type='radio' name='pct' value='"+p+"' "+checked+"> "+labelText+"</label>";
+    m.innerHTML += "<label style='flex:1;min-width:60px;'><input type='radio' name='pct' value='"+p+"' "+checked+"> "+labelText+"</label>";
   }
   m.innerHTML += "</div>";
 }
