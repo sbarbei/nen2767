@@ -54,17 +54,24 @@ var d=document,m=d.createElement("div");
 m.style="position:fixed;top:20px;right:20px;background:white;padding:15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:600px;";
 m.innerHTML="<h3>Selecteer opties</h3>";
 
-// Percentagetabel (4 kolommen)
-m.innerHTML += "<div><strong>Percentage:</strong><br><table style='width:100%'><tr>";
-var percentColumns = [['0','4','8','20','40','60'],['1','5','9','25','45','65'],['2','6','10','30','50'],['3','7','15','35','55']];
-percentColumns.forEach(function(col){
-  m.innerHTML += "<td style='vertical-align:top;'>";
-  col.forEach(function(p){
-    m.innerHTML += "<label><input type='radio' name='pct' value='"+p+"'> "+p+"%</label><br>";
+// Percentagetabel (5 per rij)
+m.innerHTML += "<div><strong>Percentage:</strong><br><table style='width:100%;table-layout:fixed;'>";
+var percentRows = [
+  [0,1,2,3,4],
+  [5,6,7,8,9],
+  [10,15,20,25,30],
+  [35,40,45,50,55],
+  [60,65]
+];
+percentRows.forEach(function(row){
+  m.innerHTML += "<tr>";
+  row.forEach(function(p){
+    m.innerHTML += "<td><label><input type='radio' name='pct' value='"+p+"'> "+p+"%</label></td>";
   });
-  m.innerHTML += "</td>";
+  for (var i = row.length; i < 5; i++) m.innerHTML += "<td></td>";
+  m.innerHTML += "</tr>";
 });
-m.innerHTML += "</tr></table><label>Anders: <input type='number' id='customPct' min='0' max='100' style='width:60px;'>%</label></div><br>";
+m.innerHTML += "</table><label>Anders: <input type='number' id='customPct' min='0' max='100' style='width:60px;'>%</label></div><br>";
 
 // Stadium
 m.innerHTML += "<div><strong>Stadium:</strong><br>";
