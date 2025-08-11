@@ -1,4 +1,3 @@
-
 function byId(id){return document.getElementById(id);}
 function clickId(id){var el=byId(id);if(el)el.click();}
 function typeValue(id,val){var el=byId(id);if(el){el.focus();el.value=val;el.dispatchEvent(new Event('input',{bubbles:true}));}}
@@ -11,7 +10,19 @@ function act(p, s, blad){
     setSelectValue("treeflawselect", "Scheutlengte (Ernstig)");
     setSelectValue("intensityselect", s);
     clickId("savewfbutton");
-    clickId("inspectedbutton");
+
+    if (blad) {
+      setTimeout(function(){
+        clickId("newbutton");
+        setSelectValue("treeflawselect", "Bladontwikkeling (Serieus)");
+        typeValue("scope", "100");
+        setSelectValue("intensityselect", s);
+        check("overlap");
+        clickId("savewfbutton");
+      }, 300);
+    }
+
+    setTimeout(function(){ clickId("inspectedbutton"); }, 600);
     return;
   }
 
@@ -43,8 +54,17 @@ var d=document,m=d.createElement("div");
 m.style="position:fixed;top:20px;right:20px;background:white;padding:15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:600px;";
 m.innerHTML="<h3>Selecteer opties</h3>";
 
-// Percentage (4 kolommen)
-m.innerHTML += "<div><strong>Percentage:</strong><br><table style='width:100%'><tr><td style='vertical-align:top;'><label><input type='radio' name='pct' value='0'> 0%</label><br><label><input type='radio' name='pct' value='4'> 4%</label><br><label><input type='radio' name='pct' value='8'> 8%</label><br><label><input type='radio' name='pct' value='20'> 20%</label><br><label><input type='radio' name='pct' value='40'> 40%</label><br><label><input type='radio' name='pct' value='60'> 60%</label><br></td><td style='vertical-align:top;'><label><input type='radio' name='pct' value='1'> 1%</label><br><label><input type='radio' name='pct' value='5'> 5%</label><br><label><input type='radio' name='pct' value='9'> 9%</label><br><label><input type='radio' name='pct' value='25'> 25%</label><br><label><input type='radio' name='pct' value='45'> 45%</label><br><label><input type='radio' name='pct' value='65'> 65%</label><br></td><td style='vertical-align:top;'><label><input type='radio' name='pct' value='2'> 2%</label><br><label><input type='radio' name='pct' value='6'> 6%</label><br><label><input type='radio' name='pct' value='10'> 10%</label><br><label><input type='radio' name='pct' value='30'> 30%</label><br><label><input type='radio' name='pct' value='50'> 50%</label><br></td><td style='vertical-align:top;'><label><input type='radio' name='pct' value='3'> 3%</label><br><label><input type='radio' name='pct' value='7'> 7%</label><br><label><input type='radio' name='pct' value='15'> 15%</label><br><label><input type='radio' name='pct' value='35'> 35%</label><br><label><input type='radio' name='pct' value='55'> 55%</label><br></td></tr></table><label>Anders: <input type='number' id='customPct' min='0' max='100' style='width:60px;'>%</label><br></div><br>";
+// Percentagetabel (4 kolommen)
+m.innerHTML += "<div><strong>Percentage:</strong><br><table style='width:100%'><tr>";
+var percentColumns = [['0','4','8','20','40','60'],['1','5','9','25','45','65'],['2','6','10','30','50'],['3','7','15','35','55']];
+percentColumns.forEach(function(col){
+  m.innerHTML += "<td style='vertical-align:top;'>";
+  col.forEach(function(p){
+    m.innerHTML += "<label><input type='radio' name='pct' value='"+p+"'> "+p+"%</label><br>";
+  });
+  m.innerHTML += "</td>";
+});
+m.innerHTML += "</tr></table><label>Anders: <input type='number' id='customPct' min='0' max='100' style='width:60px;'>%</label></div><br>";
 
 // Stadium
 m.innerHTML += "<div><strong>Stadium:</strong><br>";
