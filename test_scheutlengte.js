@@ -6,22 +6,22 @@ function check(id){var el=byId(id);if(el&&!el.checked){el.checked=true;el.dispat
 
 function act(p, s, blad, aant, kleur){
   if(p === "0"){
-    clickId("newbutton");
-    setSelectValue("treeflawselect", "Scheutlengte (Ernstig)");
-    setSelectValue("intensityselect", s);
-    clickId("savewfbutton");
-
+    if(s.includes("Beginstadium") || s.includes("Gevorderd stadium")) {
+      clickId("newbutton");
+      setSelectValue("treeflawselect", "Scheutlengte (Ernstig)");
+      setSelectValue("intensityselect", s.includes("Gevorderd stadium") ? "Gevorderd stadium" : "Beginstadium");
+      clickId("savewfbutton");
+    }
     if (blad) {
       setTimeout(function(){
         clickId("newbutton");
         setSelectValue("treeflawselect", "Bladontwikkeling (Serieus)");
         typeValue("scope", "100");
-        setSelectValue("intensityselect", s);
+        setSelectValue("intensityselect", s.includes("Gevorderd stadium") ? "Gevorderd stadium" : "Beginstadium");
         check("overlap");
         clickId("savewfbutton");
       }, 300);
     }
-
     setTimeout(function(){ clickId("inspectedbutton"); }, 600);
   } else {
     clickId("newbutton");
@@ -30,17 +30,19 @@ function act(p, s, blad, aant, kleur){
     setSelectValue("intensityselect", "Eindstadium");
     clickId("savewfbutton");
 
-    clickId("newbutton");
-    setSelectValue("treeflawselect", "Scheutlengte (Ernstig)");
-    typeValue("scope", (100 - parseFloat(p)).toString());
-    setSelectValue("intensityselect", s);
-    clickId("savewfbutton");
+    if(s.includes("Beginstadium") || s.includes("Gevorderd stadium")) {
+      clickId("newbutton");
+      setSelectValue("treeflawselect", "Scheutlengte (Ernstig)");
+      typeValue("scope", (100 - parseFloat(p)).toString());
+      setSelectValue("intensityselect", s.includes("Gevorderd stadium") ? "Gevorderd stadium" : "Beginstadium");
+      clickId("savewfbutton");
+    }
 
     if (blad) {
       clickId("newbutton");
       setSelectValue("treeflawselect", "Bladontwikkeling (Serieus)");
       typeValue("scope", (100 - parseFloat(p)).toString());
-      setSelectValue("intensityselect", s);
+      setSelectValue("intensityselect", s.includes("Gevorderd stadium") ? "Gevorderd stadium" : "Beginstadium");
       check("overlap");
       clickId("savewfbutton");
     }
@@ -69,44 +71,69 @@ function act(p, s, blad, aant, kleur){
 
 var d=document,m=d.createElement("div");
 m.style="position:fixed;top:20px;right:20px;background:white;padding:15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:900px;";
-m.innerHTML="<h3>Opties</h3>";
 
-// Bloktitel
-m.innerHTML += "<div style='background-color:#007BFF;color:white;padding:6px 10px;margin-bottom:10px;font-weight:bold;'>Intensiteit scheutlengte</div>";
+// ✅ "Gebreken" header met zwarte onderlijn
+m.innerHTML = `
+  <div style='margin-left:auto;width:max-content;margin-bottom:0;'>
+    <div style='background:black;color:white;padding:4px 8px;font-size:13px;font-weight:bold;'>Gebreken</div>
+    <div style='height:1px;background:black;'></div>
+  </div>`;
 
-// Intensiteit + bladontwikkeling
-m.innerHTML += "<div style='display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;'>";
+// Titel: Intensiteit scheutlengte
+m.innerHTML += `<div style='margin-bottom:10px;'><span style='background-color:#007BFF;color:white;padding:4px 8px;font-weight:bold;border-radius:4px;'>Intensiteit scheutlengte</span></div>`;
 
-// Radioknoppen voor intensiteit
-m.innerHTML += "<div>";
-["Beginstadium","Gevorderd stadium"].forEach(function(val){
-  var checked = (val === "Gevorderd stadium") ? "checked" : "";
-  m.innerHTML += "<label style='display:block;'><input type='radio' name='stadium' value='"+val+"' "+checked+"> "+val+"</label>";
-});
-m.innerHTML += "</div>";
+// Stadium & bladontwikkeling
+m.innerHTML += `
+  <div style="display:flex;align-items:center;gap:20px;margin-bottom:10px;flex-wrap:wrap;">
+    <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="begincheck"> Beginstadium</label>
+    <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="gevorderdcheck" checked> Gevorderd stadium</label>
+    <label style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="bladcheck"> Voeg bladontwikkeling toe</label>
+  </div>
+`;
 
-// Bladontwikkeling checkbox rechts
-m.innerHTML += "<div style='margin-left:30px;margin-top:18px;'><label><input type='checkbox' id='bladcheck'> Voeg bladontwikkeling toe</label></div>";
-m.innerHTML += "</div>";
+// Titel: Omvang afsterving
+m.innerHTML += `<div style='margin-bottom:5px;'><span style='background-color:#007BFF;color:white;padding:4px 8px;font-weight:bold;border-radius:4px;'>Omvang afsterving</span></div>`;
 
-// Omvang Afsterving
-m.innerHTML += "<div><strong>Omvang Afsterving:</strong><br>";
-var percents = [0,1,2,3,4,5,6,7,8,9,10,11,15,20,25,30,35,40,45,50,55,60,65,70];
-for (var i = 0; i < percents.length; i += 8) {
-  m.innerHTML += "<div style='display:flex;gap:10px;margin-bottom:5px;flex-wrap:wrap;'>";
-  for (var j = i; j < i + 8 && j < percents.length; j++) {
-    var p = percents[j];
-    var checked = (p === 0) ? "checked" : "";
-    var labelText = (p === 5 || p === 10) ? "<strong>" + p + "%</strong>" : p + "%";
-    m.innerHTML += "<label style='flex:1;min-width:60px;'><input type='radio' name='pct' value='"+p+"' "+checked+"> "+labelText+"</label>";
+// Percentagetabel
+m.innerHTML += "<table style='border-collapse:collapse;width:100%;table-layout:fixed;'><tbody>";
+
+var pctRows = [
+  [0,1,2,3,4,5,6,7],
+  [8,9,10,11,12,13,15,20],
+  [25,30,35,40,45,50,55,60],
+  [65,70,75,80,85,90,95,100]
+];
+
+for (var r = 0; r < pctRows.length; r++) {
+  m.innerHTML += "<tr>";
+  for (var c = 0; c < 8; c++) {
+    var p = pctRows[r][c];
+    let cell = `<td style="padding:6px;text-align:center;width:12.5%;">`;
+    if (p !== undefined) {
+      var checked = p === 0 ? "checked" : "";
+      var labelText = (p === 5 || p === 10) ? `<strong>${p}%</strong>` : `${p}%`;
+      cell += `<label style="display:inline-block;font-size:14px;"><input type="radio" name="pct" value="${p}" ${checked} style="margin-right:4px;">${labelText}</label>`;
+    }
+    cell += `</td>`;
+    m.innerHTML += cell;
   }
-  m.innerHTML += "</div>";
+  m.innerHTML += "</tr>";
 }
-m.innerHTML += "<div style='margin-top:10px;'><label>Anders: <input type='number' id='customPct' min='0' max='100' style='width:60px;'>%</label></div><br>";
+m.innerHTML += "</tbody></table>";
 
-// Aantasting + Bladkleur
-m.innerHTML += "<div><strong>Aantasting & Bladkleur (optioneel):</strong></div>";
-m.innerHTML += "<div style='display:flex;gap:20px;margin-top:5px;margin-bottom:10px;'>";
+// Anders (%): naast label
+m.innerHTML += `
+  <div style='margin-top:5px;margin-bottom:5px;display:flex;align-items:center;gap:6px;'>
+    <label for='customPct'>Anders (%):</label>
+    <input type='number' id='customPct' min='0' max='100' style='width:60px;'>
+  </div>
+`;
+
+// Omvang aantasting & bladkleur
+m.innerHTML += `<div style='margin-bottom:5px;'><span style='background-color:#007BFF;color:white;padding:4px 8px;font-weight:bold;border-radius:4px;'>Omvang aantasting & bladkleur</span></div>`;
+
+// Velden aantasting en bladkleur
+m.innerHTML += "<div style='display:flex;gap:20px;margin-bottom:10px;flex-wrap:wrap;'>";
 m.innerHTML += "<label>Aantasting (%): <input type='number' id='aantasting' min='0' max='100' style='width:60px;'></label>";
 m.innerHTML += "<label>Bladkleur (%): <input type='number' id='bladkleur' min='0' max='100' style='width:60px;'></label>";
 m.innerHTML += "</div><br>";
@@ -114,20 +141,22 @@ m.innerHTML += "</div><br>";
 // Knoppen
 var btnStart = d.createElement("button");
 btnStart.textContent = "Start";
-btnStart.style = "margin-right:10px;padding:5px 10px;background-color:#007BFF;color:white;font-weight:bold;border:none;border-radius:4px;";
+btnStart.style = "margin-right:10px;padding:5px 10px;background-color:#28a745;color:white;font-weight:bold;border:none;border-radius:4px;";
 btnStart.onclick = function(){
   var pRadio = m.querySelector("input[name='pct']:checked");
   var pCustom = m.querySelector("#customPct");
-  var s = m.querySelector("input[name='stadium']:checked");
   var blad = m.querySelector("#bladcheck").checked;
   var aant = m.querySelector("#aantasting").value.trim();
   var kleur = m.querySelector("#bladkleur").value.trim();
   var pVal = pRadio ? pRadio.value : (pCustom.value ? pCustom.value : null);
-  if(pVal && s){
-    act(pVal, s.value, blad, aant, kleur);
+  var stages = [];
+  if (byId("begincheck").checked) stages.push("Beginstadium");
+  if (byId("gevorderdcheck").checked) stages.push("Gevorderd stadium");
+  if(pVal){
+    act(pVal, stages, blad, aant, kleur);
     d.body.removeChild(m);
   } else {
-    alert("Selecteer percentage en intensiteit.");
+    alert("Selecteer percentage.");
   }
 };
 
@@ -145,3 +174,11 @@ m.appendChild(btnStart);
 m.appendChild(btnCancel);
 m.appendChild(closeBtn);
 d.body.appendChild(m);
+
+// Stadium exclusief selecteren
+byId("begincheck").addEventListener("change", function(){
+  if(this.checked) byId("gevorderdcheck").checked = false;
+});
+byId("gevorderdcheck").addEventListener("change", function(){
+  if(this.checked) byId("begincheck").checked = false;
+});
