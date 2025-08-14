@@ -71,8 +71,23 @@ var d=document,m=d.createElement("div");
 m.style="position:fixed;top:20px;right:20px;background:white;padding:15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:900px;";
 m.innerHTML="<h3>Opties</h3>";
 
-// Percentages
-m.innerHTML += "<div><strong>Percentage:</strong><br>";
+// Intensiteit + Bladontwikkeling
+m.innerHTML += "<div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;'>";
+
+// Intensiteit
+m.innerHTML += "<div><strong>Intensiteit Scheutlengte:</strong><br>";
+["Beginstadium","Gevorderd stadium"].forEach(function(val){
+  var checked = (val === "Gevorderd stadium") ? "checked" : "";
+  m.innerHTML += "<label><input type='radio' name='stadium' value='"+val+"' "+checked+"> "+val+"</label><br>";
+});
+m.innerHTML += "</div>";
+
+// Bladontwikkeling
+m.innerHTML += "<div style='margin-left:20px;margin-top:18px;'><label><input type='checkbox' id='bladcheck'> Voeg bladontwikkeling toe</label></div>";
+m.innerHTML += "</div>";
+
+// Omvang Afsterving
+m.innerHTML += "<div><strong>Omvang Afsterving:</strong><br>";
 var percents = [0,1,2,3,4,5,6,7,8,9,10,11,15,20,25,30,35,40,45,50,55,60,65,70];
 for (var i = 0; i < percents.length; i += 8) {
   m.innerHTML += "<div style='display:flex;gap:10px;margin-bottom:5px;flex-wrap:wrap;'>";
@@ -84,19 +99,7 @@ for (var i = 0; i < percents.length; i += 8) {
   }
   m.innerHTML += "</div>";
 }
-m.innerHTML += "</div>";
 m.innerHTML += "<div style='margin-top:10px;'><label>Anders: <input type='number' id='customPct' min='0' max='100' style='width:60px;'>%</label></div><br>";
-
-// Stadium
-m.innerHTML += "<div><strong>Stadium:</strong><br>";
-["Beginstadium","Gevorderd stadium"].forEach(function(val){
-  var checked = (val === "Gevorderd stadium") ? "checked" : "";
-  m.innerHTML += "<label><input type='radio' name='stadium' value='"+val+"' "+checked+"> "+val+"</label><br>";
-});
-m.innerHTML += "</div><br>";
-
-// Bladontwikkeling
-m.innerHTML += "<div><label><input type='checkbox' id='bladcheck'> Voeg bladontwikkeling toe</label></div><br>";
 
 // Aantasting + Bladkleur naast elkaar
 m.innerHTML += "<div><strong>Aantasting & Bladkleur (optioneel):</strong></div>";
@@ -121,7 +124,7 @@ btnStart.onclick = function(){
     act(pVal, s.value, blad, aant, kleur);
     d.body.removeChild(m);
   } else {
-    alert("Selecteer percentage en stadium.");
+    alert("Selecteer percentage en intensiteit.");
   }
 };
 
