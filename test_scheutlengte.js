@@ -71,18 +71,21 @@ var d=document,m=d.createElement("div");
 m.style="position:fixed;top:20px;right:20px;background:white;padding:15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:900px;";
 m.innerHTML="<h3>Opties</h3>";
 
-// Intensiteit + Bladontwikkeling (op één regel)
+// Bloktitel
+m.innerHTML += "<div style='background-color:#007BFF;color:white;padding:6px 10px;margin-bottom:10px;font-weight:bold;'>Intensiteit scheutlengte</div>";
+
+// Intensiteit + bladontwikkeling
 m.innerHTML += "<div style='display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;'>";
 
-// Intensiteit
-m.innerHTML += "<div><strong>Intensiteit Scheutlengte:</strong><br>";
+// Radioknoppen voor intensiteit
+m.innerHTML += "<div>";
 ["Beginstadium","Gevorderd stadium"].forEach(function(val){
   var checked = (val === "Gevorderd stadium") ? "checked" : "";
   m.innerHTML += "<label style='display:block;'><input type='radio' name='stadium' value='"+val+"' "+checked+"> "+val+"</label>";
 });
 m.innerHTML += "</div>";
 
-// Bladontwikkeling checkbox op dezelfde regel
+// Bladontwikkeling checkbox rechts
 m.innerHTML += "<div style='margin-left:30px;margin-top:18px;'><label><input type='checkbox' id='bladcheck'> Voeg bladontwikkeling toe</label></div>";
 m.innerHTML += "</div>";
 
