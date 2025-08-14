@@ -71,19 +71,19 @@ var d=document,m=d.createElement("div");
 m.style="position:fixed;top:20px;right:20px;background:white;padding:15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:900px;";
 m.innerHTML="<h3>Opties</h3>";
 
-// Intensiteit + Bladontwikkeling
-m.innerHTML += "<div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;'>";
+// Intensiteit + Bladontwikkeling (op één regel)
+m.innerHTML += "<div style='display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;'>";
 
 // Intensiteit
 m.innerHTML += "<div><strong>Intensiteit Scheutlengte:</strong><br>";
 ["Beginstadium","Gevorderd stadium"].forEach(function(val){
   var checked = (val === "Gevorderd stadium") ? "checked" : "";
-  m.innerHTML += "<label><input type='radio' name='stadium' value='"+val+"' "+checked+"> "+val+"</label><br>";
+  m.innerHTML += "<label style='display:block;'><input type='radio' name='stadium' value='"+val+"' "+checked+"> "+val+"</label>";
 });
 m.innerHTML += "</div>";
 
-// Bladontwikkeling
-m.innerHTML += "<div style='margin-left:20px;margin-top:18px;'><label><input type='checkbox' id='bladcheck'> Voeg bladontwikkeling toe</label></div>";
+// Bladontwikkeling checkbox op dezelfde regel
+m.innerHTML += "<div style='margin-left:30px;margin-top:18px;'><label><input type='checkbox' id='bladcheck'> Voeg bladontwikkeling toe</label></div>";
 m.innerHTML += "</div>";
 
 // Omvang Afsterving
@@ -101,7 +101,7 @@ for (var i = 0; i < percents.length; i += 8) {
 }
 m.innerHTML += "<div style='margin-top:10px;'><label>Anders: <input type='number' id='customPct' min='0' max='100' style='width:60px;'>%</label></div><br>";
 
-// Aantasting + Bladkleur naast elkaar
+// Aantasting + Bladkleur
 m.innerHTML += "<div><strong>Aantasting & Bladkleur (optioneel):</strong></div>";
 m.innerHTML += "<div style='display:flex;gap:20px;margin-top:5px;margin-bottom:10px;'>";
 m.innerHTML += "<label>Aantasting (%): <input type='number' id='aantasting' min='0' max='100' style='width:60px;'></label>";
