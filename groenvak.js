@@ -82,15 +82,19 @@ function actSjabloon(
   }
 }
 
-// ==== UI ====
 var d=document,m=d.createElement("div");
 m.style="position:fixed;top:20px;right:20px;background:white;padding:18px 15px 15px 15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:670px;";
 
-// Getallen als string voor snelle hergebruik
 var quickVals = [1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
 
 function quickPickBtnHtml(id){
-  return `<button class="quickPickBtn" data-for="${id}" style="margin-left:6px;padding:2px 7px 2px 7px;border-radius:4px;border:1px solid #aaa;background:#f5f5f5;font-size:13px;cursor:pointer;">Kies snel</button>`;
+  return `<button class="quickPickBtn" data-for="${id}" style="margin-left:3px;padding:2px 6px 2px 6px;border-radius:4px;border:1px solid #aaa;background:#f5f5f5;font-size:13px;cursor:pointer;">Kies snel</button>`;
+}
+function inputWithBtn(id) {
+  return `<span style="white-space:nowrap;display:inline-flex;align-items:center;">
+    <input type='number' id='${id}' min='0' max='100' style='width:58px;margin-left:2px;' placeholder="%" autocomplete="off">
+    ${quickPickBtnHtml(id)}
+  </span>`;
 }
 
 m.innerHTML = `
@@ -98,66 +102,67 @@ m.innerHTML = `
     <div style='background:black;color:white;padding:4px 8px;font-size:14px;font-weight:bold;'>Groenvak</div>
     <div style='height:1px;background:black;'></div>
   </div>
-  <table style="width:100%;margin-top:18px;font-size:15px;">
-    <tr><td colspan="4" style="font-size:14px;color:#444;font-weight:bold;padding-top:6px;">Afsterving (Ernstig)</td></tr>
+  <table style="width:100%;margin-top:18px;font-size:15px;border-collapse:separate;border-spacing:0 5px;">
+    <tr><td colspan="2" style="font-size:14px;color:#444;font-weight:bold;padding-top:6px;">Afsterving (Ernstig)</td></tr>
     <tr>
-      <td>Eindstadium</td>
-      <td><input type='number' id='afsterEind' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('afsterEind')}</td>
-      <td></td><td></td>
+      <td style="padding-right:5px;">Eindstadium</td>
+      <td>${inputWithBtn('afsterEind')}</td>
     </tr>
     <tr>
-      <td>Gevorderd stadium</td>
-      <td><input type='number' id='afsterGev' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('afsterGev')}</td>
-      <td></td><td></td>
+      <td style="padding-right:5px;">Gevorderd stadium</td>
+      <td>${inputWithBtn('afsterGev')}</td>
     </tr>
     <tr>
-      <td>Beginstadium</td>
-      <td><input type='number' id='afsterBegin' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('afsterBegin')}</td>
-      <td></td><td></td>
+      <td style="padding-right:5px;">Beginstadium</td>
+      <td>${inputWithBtn('afsterBegin')}</td>
     </tr>
-    <tr><td colspan="4"><div style="height:12px;"></div></td></tr>
-    <tr><td colspan="4" style="font-size:14px;color:#444;font-weight:bold;">Bedekkingsgraad (Serieus)</td></tr>
+    <tr><td colspan="2"><div style="height:10px;"></div></td></tr>
+    <tr><td colspan="2" style="font-size:14px;color:#444;font-weight:bold;">Bedekkingsgraad (Serieus)</td></tr>
     <tr>
-      <td>Eindstadium</td>
-      <td><input type='number' id='eind' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('eind')}</td>
-      <td></td><td></td>
+      <td style="padding-right:5px;">Eindstadium</td>
+      <td>${inputWithBtn('eind')}</td>
     </tr>
     <tr>
-      <td>Gevorderd stadium</td>
-      <td><input type='number' id='gevorderd' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('gevorderd')}</td>
-      <td></td><td></td>
+      <td style="padding-right:5px;">Gevorderd stadium</td>
+      <td>${inputWithBtn('gevorderd')}</td>
     </tr>
     <tr>
-      <td>Beginstadium</td>
-      <td><input type='number' id='begin' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('begin')}</td>
-      <td></td><td></td>
+      <td style="padding-right:5px;">Beginstadium</td>
+      <td>${inputWithBtn('begin')}</td>
     </tr>
-    <tr><td colspan="4"><div style="height:12px;"></div></td></tr>
-    <tr><td colspan="4" style="font-size:14px;color:#444;font-weight:bold;">Groeiontwikkeling (Serieus)</td></tr>
+    <tr><td colspan="2"><div style="height:10px;"></div></td></tr>
+    <tr><td colspan="2" style="font-size:14px;color:#444;font-weight:bold;">Groeiontwikkeling (Serieus)</td></tr>
     <tr>
-      <td>Eindstadium</td>
-      <td><input type='number' id='groeiEind' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('groeiEind')}</td>
-      <td></td><td></td>
+      <td style="padding-right:5px;">Eindstadium</td>
+      <td>${inputWithBtn('groeiEind')}</td>
     </tr>
     <tr>
-      <td>Gevorderd stadium</td>
+      <td style="padding-right:5px;">Gevorderd stadium</td>
       <td>
-        <input type='number' id='groeig' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('groeig')}
+        <span style="white-space:nowrap;display:inline-flex;align-items:center;">
+          <input type='number' id='groeig' min='0' max='100' style='width:58px;margin-left:2px;' placeholder="%" autocomplete="off">
+          ${quickPickBtnHtml('groeig')}
+          <label style="font-size:13px;margin-left:9px;">
+            <input type="checkbox" id="overlapg" style="margin-right:4px;">Overlap
+          </label>
+        </span>
       </td>
-      <td><label style="font-size:13px;"><input type="checkbox" id="overlapg" style="margin-right:4px;">Overlap</label></td>
-      <td></td>
     </tr>
     <tr>
-      <td>Beginstadium</td>
+      <td style="padding-right:5px;">Beginstadium</td>
       <td>
-        <input type='number' id='groeib' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('groeib')}
+        <span style="white-space:nowrap;display:inline-flex;align-items:center;">
+          <input type='number' id='groeib' min='0' max='100' style='width:58px;margin-left:2px;' placeholder="%" autocomplete="off">
+          ${quickPickBtnHtml('groeib')}
+          <label style="font-size:13px;margin-left:9px;">
+            <input type="checkbox" id="overlapb" style="margin-right:4px;">Overlap
+          </label>
+        </span>
       </td>
-      <td><label style="font-size:13px;"><input type="checkbox" id="overlapb" style="margin-right:4px;">Overlap</label></td>
-      <td></td>
     </tr>
-    <tr><td colspan="4"><div style="height:10px;"></div></td></tr>
+    <tr><td colspan="2"><div style="height:10px;"></div></td></tr>
     <tr>
-      <td colspan="4" style="font-size:16px;color:#0a0;font-weight:bold;">
+      <td colspan="2" style="font-size:16px;color:#0a0;font-weight:bold;">
         <span id="zonderGebreken">Zonder gebreken: 100%</span>
       </td>
     </tr>
@@ -165,7 +170,6 @@ m.innerHTML = `
   <div style='margin-top:12px;margin-bottom:8px;font-size:12px;color:#666;'>Vul de gewenste percentages per rij in. <br>Voor groeiontwikkeling moet je nu altijd handmatig het percentage invullen.</div>
 `;
 
-// Functie om het percentage zonder gebreken te berekenen
 function updateZonderGebreken() {
   var ids = [
     'afsterEind', 'afsterGev', 'afsterBegin',
@@ -184,15 +188,12 @@ function updateZonderGebreken() {
   if(el) el.textContent = tekst;
 }
 
-// Koppel update aan elke input
 ["afsterEind","afsterGev","afsterBegin","eind","gevorderd","begin","groeiEind","groeig","groeib"].forEach(function(id){
   m.querySelector("#"+id).addEventListener("input", updateZonderGebreken);
 });
 updateZonderGebreken();
 
-// Universele snelkeuze-pop-up voor elk veld
 function makeQuickPickPopup(input, btn) {
-  // Verwijder bestaande pop-up indien aanwezig
   var old = document.getElementById("quickPickPop");
   if(old) document.body.removeChild(old);
 
@@ -212,7 +213,6 @@ function makeQuickPickPopup(input, btn) {
     };
     pop.appendChild(b);
   });
-  // Sluit als je buiten popup klikt
   setTimeout(function(){
     function closePop(e){
       if(!pop.contains(e.target) && e.target!==btn){
@@ -225,8 +225,7 @@ function makeQuickPickPopup(input, btn) {
   document.body.appendChild(pop);
 }
 
-// Snelkeuze koppelen aan alle knoppen
-setTimeout(function() { // Even wachten tot DOM klaar is
+setTimeout(function() {
   var btns = m.querySelectorAll(".quickPickBtn");
   btns.forEach(function(btn){
     var inputId = btn.getAttribute("data-for");
