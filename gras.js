@@ -55,7 +55,7 @@ m.style="position:fixed;top:20px;right:20px;background:white;padding:18px 15px 1
 
 m.innerHTML = `
   <div style='margin-left:auto;width:max-content;margin-bottom:0;'>
-    <div style='background:black;color:white;padding:4px 8px;font-size:14px;font-weight:bold;'>Bedekkingsgraad & Groeiontwikkeling (Sjabloon)</div>
+    <div style='background:black;color:white;padding:4px 8px;font-size:14px;font-weight:bold;'>Gras</div>
     <div style='height:1px;background:black;'></div>
   </div>
   <table style="width:100%;margin-top:18px;font-size:15px;">
