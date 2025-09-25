@@ -1,0 +1,26 @@
+javascript:(function(){
+function byId(id){return document.getElementById(id);}
+function clickId(id){var el=byId(id);if(el)el.click();}
+function typeValue(id,val){var el=byId(id);if(el){el.focus();el.value=val;el.dispatchEvent(new Event('input',{bubbles:true}));}}
+function setSelectValue(id,label){var s=byId(id);if(!s)return;var o=Array.from(s.options).find(o=>o.label===label||o.text===label||o.textContent===label||o.value===label);if(o){s.value=o.value;s.dispatchEvent(new Event('change',{bubbles:true}));}}
+function check(id){var el=byId(id);if(el&&!el.checked){el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}}
+function actSjabloon(eind,gev,groeiGev,overlapGev,begin,groeiBegin,overlapBegin){if(eind){clickId("newbutton");setSelectValue("plantflawselect","Bedekkingsgraad (Serieus)");typeValue("scope",eind);setSelectValue("intensityselect","Eindstadium");clickId("savewfbutton");}if(gev){clickId("newbutton");setSelectValue("plantflawselect","Bedekkingsgraad (Serieus)");typeValue("scope",gev);setSelectValue("intensityselect","Gevorderd stadium");clickId("savewfbutton");}if(groeiGev){clickId("newbutton");setSelectValue("plantflawselect","Groeiontwikkeling (Serieus)");typeValue("scope",groeiGev);setSelectValue("intensityselect","Gevorderd stadium");if(overlapGev)check("overlap");clickId("savewfbutton");}if(begin){clickId("newbutton");setSelectValue("plantflawselect","Bedekkingsgraad (Serieus)");typeValue("scope",begin);setSelectValue("intensityselect","Beginstadium");clickId("savewfbutton");}if(groeiBegin){clickId("newbutton");setSelectValue("plantflawselect","Groeiontwikkeling (Serieus)");typeValue("scope",groeiBegin);setSelectValue("intensityselect","Beginstadium");if(overlapBegin)check("overlap");clickId("savewfbutton");}}
+var d=document,m=d.createElement("div");
+m.style="position:fixed;top:20px;right:20px;background:white;padding:18px 15px 15px 15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:670px;";
+m.innerHTML = "<div style='margin-left:auto;width:max-content;margin-bottom:0;'><div style='background:black;color:white;padding:4px 8px;font-size:14px;font-weight:bold;'>Bedekkingsgraad & Groeiontwikkeling (Sjabloon)</div><div style='height:1px;background:black;'></div></div><table style='width:100%;margin-top:18px;font-size:15px;'><tr><td><b>Bedekkingsgraad (Serieus) Eindstadium</b></td><td><input type='number' id='eind' min='0' max='100' style='width:60px;' placeholder='%' autocomplete='off'></td><td></td></tr><tr><td><b>Bedekkingsgraad (Serieus) Gevorderd stadium</b></td><td><input type='number' id='gevorderd' min='0' max='100' style='width:60px;' placeholder='%' autocomplete='off'></td><td></td></tr><tr><td><b>Groeiontwikkeling (Serieus) Gevorderd stadium</b></td><td><input type='number' id='groeig' min='0' max='100' style='width:60px;' placeholder='%' autocomplete='off'></td><td><label style='font-size:13px;'><input type='checkbox' id='overlapg' checked style='margin-right:4px;'>Overlap</label></td></tr><tr><td><b>Bedekkingsgraad (Serieus) Beginstadium</b></td><td><input type='number' id='begin' min='0' max='100' style='width:60px;' placeholder='%' autocomplete='off'></td><td></td></tr><tr><td><b>Groeiontwikkeling (Serieus) Beginstadium</b></td><td><input type='number' id='groeib' min='0' max='100' style='width:60px;' placeholder='%' autocomplete='off'></td><td><label style='font-size:13px;'><input type='checkbox' id='overlapb' checked style='margin-right:4px;'>Overlap</label></td></tr></table><div style='margin-top:12px;margin-bottom:8px;font-size:12px;color:#666;'>Vul de gewenste percentages per rij in.<br>Standaard staan de percentages van groeiontwikkeling gelijk aan bedekkingsgraad (maar je mag ze aanpassen).</div>";
+function koppelGelijk(srcId, tgtId){m.querySelector("#"+srcId).addEventListener("input",function(){var v=this.value;if(!m.querySelector("#"+tgtId).matches(":focus"))m.querySelector("#"+tgtId).value=v;});}
+koppelGelijk("gevorderd","groeig");koppelGelijk("begin","groeib");
+var btnStart=d.createElement("button");
+btnStart.textContent="Start";
+btnStart.style="margin-right:10px;padding:6px 12px;background-color:#28a745;color:white;font-weight:bold;border:none;border-radius:4px;";
+btnStart.onclick=function(){var eind=m.querySelector("#eind").value.trim();var gev=m.querySelector("#gevorderd").value.trim();var groeiGev=m.querySelector("#groeig").value.trim();var overlapGev=m.querySelector("#overlapg").checked;var begin=m.querySelector("#begin").value.trim();var groeiBegin=m.querySelector("#groeib").value.trim();var overlapBegin=m.querySelector("#overlapb").checked;if(!eind&&!gev&&!groeiGev&&!begin&&!groeiBegin){alert("Vul ten minste één percentage in.");return;}actSjabloon(eind,gev,groeiGev,overlapGev,begin,groeib,overlapBegin);d.body.removeChild(m);};
+var btnCancel=d.createElement("button");
+btnCancel.textContent="Annuleer";
+btnCancel.style="padding:6px 12px;";
+btnCancel.onclick=function(){d.body.removeChild(m);};
+var closeBtn=d.createElement("button");
+closeBtn.textContent="×";
+closeBtn.style="position:absolute;top:5px;right:10px;background:none;border:none;font-size:19px;cursor:pointer;";
+closeBtn.onclick=function(){d.body.removeChild(m);};
+m.appendChild(btnStart);m.appendChild(btnCancel);m.appendChild(closeBtn);d.body.appendChild(m);
+})();
