@@ -1,3 +1,5 @@
+document.title = "Groenvak";
+
 function byId(id){return document.getElementById(id);}
 function clickId(id){var el=byId(id);if(el)el.click();}
 function typeValue(id,val){var el=byId(id);if(el){el.focus();el.value=val;el.dispatchEvent(new Event('input',{bubbles:true}));}}
@@ -13,7 +15,6 @@ function actSjabloon(
   afsterEind, afsterGev, afsterBegin,
   eind, gev, begin, groeiEind, groeiGev, overlapGev, groeiBegin, overlapBegin
 ) {
-  // Afsterving (Ernstig)
   if(afsterEind) {
     clickId("newbutton");
     setSelectValue("plantflawselect", "Afsterving (Ernstig)");
@@ -35,7 +36,6 @@ function actSjabloon(
     setSelectValue("intensityselect", "Beginstadium");
     clickId("savewfbutton");
   }
-  // Bedekkingsgraad (Serieus)
   if(eind) {
     clickId("newbutton");
     setSelectValue("plantflawselect", "Bedekkingsgraad (Serieus)");
@@ -57,7 +57,6 @@ function actSjabloon(
     setSelectValue("intensityselect", "Beginstadium");
     clickId("savewfbutton");
   }
-  // Groeiontwikkeling (Serieus)
   if(groeiEind) {
     clickId("newbutton");
     setSelectValue("plantflawselect", "Groeiontwikkeling (Serieus)");
@@ -87,65 +86,78 @@ function actSjabloon(
 var d=document,m=d.createElement("div");
 m.style="position:fixed;top:20px;right:20px;background:white;padding:18px 15px 15px 15px;border:1px solid #ccc;z-index:99999;font-family:sans-serif;box-shadow:0 2px 6px rgba(0,0,0,0.3);width:95vw;max-width:670px;";
 
+// Getallen als string voor snelle hergebruik
+var quickVals = [1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
+
+function quickPickBtnHtml(id){
+  return `<button class="quickPickBtn" data-for="${id}" style="margin-left:6px;padding:2px 7px 2px 7px;border-radius:4px;border:1px solid #aaa;background:#f5f5f5;font-size:13px;cursor:pointer;">Kies snel</button>`;
+}
+
 m.innerHTML = `
   <div style='margin-left:auto;width:max-content;margin-bottom:0;'>
     <div style='background:black;color:white;padding:4px 8px;font-size:14px;font-weight:bold;'>Groenvak</div>
     <div style='height:1px;background:black;'></div>
   </div>
   <table style="width:100%;margin-top:18px;font-size:15px;">
-    <tr><td colspan="3" style="font-size:14px;color:#444;font-weight:bold;padding-top:6px;">Afsterving (Ernstig)</td></tr>
+    <tr><td colspan="4" style="font-size:14px;color:#444;font-weight:bold;padding-top:6px;">Afsterving (Ernstig)</td></tr>
     <tr>
       <td>Eindstadium</td>
-      <td><input type='number' id='afsterEind' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off"></td>
-      <td></td>
+      <td><input type='number' id='afsterEind' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('afsterEind')}</td>
+      <td></td><td></td>
     </tr>
     <tr>
       <td>Gevorderd stadium</td>
-      <td><input type='number' id='afsterGev' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off"></td>
-      <td></td>
+      <td><input type='number' id='afsterGev' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('afsterGev')}</td>
+      <td></td><td></td>
     </tr>
     <tr>
       <td>Beginstadium</td>
-      <td><input type='number' id='afsterBegin' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off"></td>
-      <td></td>
+      <td><input type='number' id='afsterBegin' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('afsterBegin')}</td>
+      <td></td><td></td>
     </tr>
-    <tr><td colspan="3"><div style="height:12px;"></div></td></tr>
-    <tr><td colspan="3" style="font-size:14px;color:#444;font-weight:bold;">Bedekkingsgraad (Serieus)</td></tr>
+    <tr><td colspan="4"><div style="height:12px;"></div></td></tr>
+    <tr><td colspan="4" style="font-size:14px;color:#444;font-weight:bold;">Bedekkingsgraad (Serieus)</td></tr>
     <tr>
       <td>Eindstadium</td>
-      <td><input type='number' id='eind' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off"></td>
-      <td></td>
+      <td><input type='number' id='eind' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('eind')}</td>
+      <td></td><td></td>
     </tr>
     <tr>
       <td>Gevorderd stadium</td>
-      <td><input type='number' id='gevorderd' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off"></td>
-      <td></td>
+      <td><input type='number' id='gevorderd' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('gevorderd')}</td>
+      <td></td><td></td>
     </tr>
     <tr>
       <td>Beginstadium</td>
-      <td><input type='number' id='begin' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off"></td>
-      <td></td>
+      <td><input type='number' id='begin' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('begin')}</td>
+      <td></td><td></td>
     </tr>
-    <tr><td colspan="3"><div style="height:12px;"></div></td></tr>
-    <tr><td colspan="3" style="font-size:14px;color:#444;font-weight:bold;">Groeiontwikkeling (Serieus)</td></tr>
+    <tr><td colspan="4"><div style="height:12px;"></div></td></tr>
+    <tr><td colspan="4" style="font-size:14px;color:#444;font-weight:bold;">Groeiontwikkeling (Serieus)</td></tr>
     <tr>
       <td>Eindstadium</td>
-      <td><input type='number' id='groeiEind' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off"></td>
-      <td></td>
+      <td><input type='number' id='groeiEind' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('groeiEind')}</td>
+      <td></td><td></td>
     </tr>
     <tr>
       <td>Gevorderd stadium</td>
-      <td><input type='number' id='groeig' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off"></td>
+      <td>
+        <input type='number' id='groeig' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('groeig')}
+      </td>
       <td><label style="font-size:13px;"><input type="checkbox" id="overlapg" style="margin-right:4px;">Overlap</label></td>
+      <td></td>
     </tr>
     <tr>
       <td>Beginstadium</td>
-      <td><input type='number' id='groeib' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off"></td>
+      <td>
+        <input type='number' id='groeib' min='0' max='100' style='width:60px;' placeholder="%" autocomplete="off">${quickPickBtnHtml('groeib')}
+      </td>
       <td><label style="font-size:13px;"><input type="checkbox" id="overlapb" style="margin-right:4px;">Overlap</label></td>
+      <td></td>
     </tr>
-    <tr><td colspan="3"><div style="height:10px;"></div></td></tr>
+    <tr><td colspan="4"><div style="height:10px;"></div></td></tr>
     <tr>
-      <td colspan="3" style="font-size:16px;color:#0a0;font-weight:bold;">
+      <td colspan="4" style="font-size:16px;color:#0a0;font-weight:bold;">
         <span id="zonderGebreken">Zonder gebreken: 100%</span>
       </td>
     </tr>
@@ -155,7 +167,6 @@ m.innerHTML = `
 
 // Functie om het percentage zonder gebreken te berekenen
 function updateZonderGebreken() {
-  // Alle input-ids die meetellen voor de optelsom
   var ids = [
     'afsterEind', 'afsterGev', 'afsterBegin',
     'eind', 'gevorderd', 'begin',
@@ -177,7 +188,55 @@ function updateZonderGebreken() {
 ["afsterEind","afsterGev","afsterBegin","eind","gevorderd","begin","groeiEind","groeig","groeib"].forEach(function(id){
   m.querySelector("#"+id).addEventListener("input", updateZonderGebreken);
 });
-updateZonderGebreken(); // direct initieel uitvoeren
+updateZonderGebreken();
+
+// Universele snelkeuze-pop-up voor elk veld
+function makeQuickPickPopup(input, btn) {
+  // Verwijder bestaande pop-up indien aanwezig
+  var old = document.getElementById("quickPickPop");
+  if(old) document.body.removeChild(old);
+
+  var pop = document.createElement("div");
+  pop.id = "quickPickPop";
+  var rect = btn.getBoundingClientRect();
+  pop.style = "position:absolute;z-index:999999;top:"+(rect.bottom+window.scrollY+3)+"px;left:"+(rect.left+window.scrollX)+"px;background:#fff;border:1px solid #aaa;padding:8px 12px 6px 12px;box-shadow:0 2px 12px rgba(0,0,0,0.16);border-radius:6px;";
+  pop.innerHTML = "<div style='font-size:13px;color:#222;margin-bottom:5px;'>Kies percentage:</div>";
+  quickVals.forEach(function(val){
+    var b = document.createElement("button");
+    b.textContent = val;
+    b.style = "margin:3px 3px 4px 0;padding:4px 10px;border-radius:5px;border:1px solid #aaa;background:#f3f3f3;font-size:15px;cursor:pointer;";
+    b.onclick = function(){
+      input.value = val;
+      input.dispatchEvent(new Event("input", {bubbles:true}));
+      document.body.removeChild(pop);
+    };
+    pop.appendChild(b);
+  });
+  // Sluit als je buiten popup klikt
+  setTimeout(function(){
+    function closePop(e){
+      if(!pop.contains(e.target) && e.target!==btn){
+        document.body.removeChild(pop);
+        document.removeEventListener('mousedown',closePop,true);
+      }
+    }
+    document.addEventListener('mousedown',closePop,true);
+  },50);
+  document.body.appendChild(pop);
+}
+
+// Snelkeuze koppelen aan alle knoppen
+setTimeout(function() { // Even wachten tot DOM klaar is
+  var btns = m.querySelectorAll(".quickPickBtn");
+  btns.forEach(function(btn){
+    var inputId = btn.getAttribute("data-for");
+    var input = m.querySelector("#"+inputId);
+    btn.onclick = function(e){
+      e.preventDefault();
+      makeQuickPickPopup(input, btn);
+    };
+  });
+},10);
 
 var btnStart = d.createElement("button");
 btnStart.textContent = "Start";
