@@ -11,75 +11,117 @@ function setSelectValue(id,label){
 }
 function check(id){var el=byId(id);if(el&&!el.checked){el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}}
 
+// Trage, betrouwbare versie van actSjabloon – wacht tussen elke regel met invullen!
 function actSjabloon(
   afsterEind, afsterGev, afsterBegin,
-  eind, gev, begin, groeiEind, groeiGev, overlapGev, groeiBegin, overlapBegin
+  eind, gev, overlapGev, begin, overlapBegin,
+  groeiGev, overlapGroeiGev, groeiBegin, overlapGroeiBegin
 ) {
-  if(afsterEind) {
+  const acties = [];
+
+  // Afsterving (Ernstig)
+  if(afsterEind) acties.push(function(next){
     clickId("newbutton");
-    setSelectValue("plantflawselect", "Afsterving (Ernstig)");
-    typeValue("scope", afsterEind);
-    setSelectValue("intensityselect", "Eindstadium");
-    clickId("savewfbutton");
-  }
-  if(afsterGev) {
+    setTimeout(()=>{ setSelectValue("plantflawselect", "Afsterving (Ernstig)");
+      setTimeout(()=>{ typeValue("scope", afsterEind);
+        setTimeout(()=>{ setSelectValue("intensityselect", "Eindstadium");
+          setTimeout(()=>{ clickId("savewfbutton"); next(); }, 100);
+        }, 100);
+      }, 100);
+    }, 100);
+  });
+  if(afsterGev) acties.push(function(next){
     clickId("newbutton");
-    setSelectValue("plantflawselect", "Afsterving (Ernstig)");
-    typeValue("scope", afsterGev);
-    setSelectValue("intensityselect", "Gevorderd stadium");
-    clickId("savewfbutton");
-  }
-  if(afsterBegin) {
+    setTimeout(()=>{ setSelectValue("plantflawselect", "Afsterving (Ernstig)");
+      setTimeout(()=>{ typeValue("scope", afsterGev);
+        setTimeout(()=>{ setSelectValue("intensityselect", "Gevorderd stadium");
+          setTimeout(()=>{ clickId("savewfbutton"); next(); }, 100);
+        }, 100);
+      }, 100);
+    }, 100);
+  });
+  if(afsterBegin) acties.push(function(next){
     clickId("newbutton");
-    setSelectValue("plantflawselect", "Afsterving (Ernstig)");
-    typeValue("scope", afsterBegin);
-    setSelectValue("intensityselect", "Beginstadium");
-    clickId("savewfbutton");
-  }
-  if(eind) {
+    setTimeout(()=>{ setSelectValue("plantflawselect", "Afsterving (Ernstig)");
+      setTimeout(()=>{ typeValue("scope", afsterBegin);
+        setTimeout(()=>{ setSelectValue("intensityselect", "Beginstadium");
+          setTimeout(()=>{ clickId("savewfbutton"); next(); }, 100);
+        }, 100);
+      }, 100);
+    }, 100);
+  });
+
+  // Bedekkingsgraad (Serieus)
+  if(eind) acties.push(function(next){
     clickId("newbutton");
-    setSelectValue("plantflawselect", "Bedekkingsgraad (Serieus)");
-    typeValue("scope", eind);
-    setSelectValue("intensityselect", "Eindstadium");
-    clickId("savewfbutton");
-  }
-  if(gev) {
+    setTimeout(()=>{ setSelectValue("plantflawselect", "Bedekkingsgraad (Serieus)");
+      setTimeout(()=>{ typeValue("scope", eind);
+        setTimeout(()=>{ setSelectValue("intensityselect", "Eindstadium");
+          setTimeout(()=>{ clickId("savewfbutton"); next(); }, 100);
+        }, 100);
+      }, 100);
+    }, 100);
+  });
+  if(gev) acties.push(function(next){
     clickId("newbutton");
-    setSelectValue("plantflawselect", "Bedekkingsgraad (Serieus)");
-    typeValue("scope", gev);
-    setSelectValue("intensityselect", "Gevorderd stadium");
-    clickId("savewfbutton");
-  }
-  if(begin) {
+    setTimeout(()=>{ setSelectValue("plantflawselect", "Bedekkingsgraad (Serieus)");
+      setTimeout(()=>{ typeValue("scope", gev);
+        setTimeout(()=>{ setSelectValue("intensityselect", "Gevorderd stadium");
+          setTimeout(()=>{
+            if(overlapGev) check("overlap");
+            setTimeout(()=>{ clickId("savewfbutton"); next(); }, 100);
+          }, 100);
+        }, 100);
+      }, 100);
+    }, 100);
+  });
+  if(begin) acties.push(function(next){
     clickId("newbutton");
-    setSelectValue("plantflawselect", "Bedekkingsgraad (Serieus)");
-    typeValue("scope", begin);
-    setSelectValue("intensityselect", "Beginstadium");
-    clickId("savewfbutton");
-  }
-  if(groeiEind) {
+    setTimeout(()=>{ setSelectValue("plantflawselect", "Bedekkingsgraad (Serieus)");
+      setTimeout(()=>{ typeValue("scope", begin);
+        setTimeout(()=>{ setSelectValue("intensityselect", "Beginstadium");
+          setTimeout(()=>{
+            if(overlapBegin) check("overlap");
+            setTimeout(()=>{ clickId("savewfbutton"); next(); }, 100);
+          }, 100);
+        }, 100);
+      }, 100);
+    }, 100);
+  });
+
+  // Groeiontwikkeling (Serieus)
+  if(groeiGev) acties.push(function(next){
     clickId("newbutton");
-    setSelectValue("plantflawselect", "Groeiontwikkeling (Serieus)");
-    typeValue("scope", groeiEind);
-    setSelectValue("intensityselect", "Eindstadium");
-    clickId("savewfbutton");
-  }
-  if(groeiGev) {
+    setTimeout(()=>{ setSelectValue("plantflawselect", "Groeiontwikkeling (Serieus)");
+      setTimeout(()=>{ typeValue("scope", groeiGev);
+        setTimeout(()=>{ setSelectValue("intensityselect", "Gevorderd stadium");
+          setTimeout(()=>{
+            if(overlapGroeiGev) check("overlap");
+            setTimeout(()=>{ clickId("savewfbutton"); next(); }, 100);
+          }, 100);
+        }, 100);
+      }, 100);
+    }, 100);
+  });
+  if(groeiBegin) acties.push(function(next){
     clickId("newbutton");
-    setSelectValue("plantflawselect", "Groeiontwikkeling (Serieus)");
-    typeValue("scope", groeiGev);
-    setSelectValue("intensityselect", "Gevorderd stadium");
-    if(overlapGev) check("overlap");
-    clickId("savewfbutton");
+    setTimeout(()=>{ setSelectValue("plantflawselect", "Groeiontwikkeling (Serieus)");
+      setTimeout(()=>{ typeValue("scope", groeiBegin);
+        setTimeout(()=>{ setSelectValue("intensityselect", "Beginstadium");
+          setTimeout(()=>{
+            if(overlapGroeiBegin) check("overlap");
+            setTimeout(()=>{ clickId("savewfbutton"); next(); }, 100);
+          }, 100);
+        }, 100);
+      }, 100);
+    }, 100);
+  });
+
+  // Voer acties na elkaar uit met telkens 500ms tussen elk (pas aan als nodig)
+  function runActie(i){
+    if(i<acties.length) acties[i](function(){ setTimeout(()=>runActie(i+1), 500); });
   }
-  if(groeiBegin) {
-    clickId("newbutton");
-    setSelectValue("plantflawselect", "Groeiontwikkeling (Serieus)");
-    typeValue("scope", groeiBegin);
-    setSelectValue("intensityselect", "Beginstadium");
-    if(overlapBegin) check("overlap");
-    clickId("savewfbutton");
-  }
+  runActie(0);
 }
 
 var d=document,m=d.createElement("div");
@@ -90,10 +132,11 @@ var quickVals = [1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,
 function quickPickBtnHtml(id){
   return `<button class="quickPickBtn" data-for="${id}" style="margin-left:3px;padding:2px 6px 2px 6px;border-radius:4px;border:1px solid #aaa;background:#f5f5f5;font-size:13px;cursor:pointer;">Kies snel</button>`;
 }
-function inputWithBtn(id) {
+function inputWithBtn(id, overlapId) {
   return `<span style="white-space:nowrap;display:inline-flex;align-items:center;">
     <input type='number' id='${id}' min='0' max='100' style='width:58px;margin-left:2px;' placeholder="%" autocomplete="off">
     ${quickPickBtnHtml(id)}
+    ${overlapId ? `<label style="font-size:13px;margin-left:9px;"><input type="checkbox" id="${overlapId}" style="margin-right:4px;">Overlap</label>` : ""}
   </span>`;
 }
 
@@ -102,84 +145,50 @@ m.innerHTML = `
     <div style='background:black;color:white;padding:4px 8px;font-size:14px;font-weight:bold;'>Groenvak</div>
     <div style='height:1px;background:black;'></div>
   </div>
-  <table style="width:100%;margin-top:18px;font-size:15px;border-collapse:separate;border-spacing:0 5px;">
-    <tr><td colspan="2" style="font-size:14px;color:#444;font-weight:bold;padding-top:6px;">Afsterving (Ernstig)</td></tr>
-    <tr>
-      <td style="padding-right:5px;">Eindstadium</td>
-      <td>${inputWithBtn('afsterEind')}</td>
-    </tr>
-    <tr>
-      <td style="padding-right:5px;">Gevorderd stadium</td>
-      <td>${inputWithBtn('afsterGev')}</td>
-    </tr>
-    <tr>
-      <td style="padding-right:5px;">Beginstadium</td>
-      <td>${inputWithBtn('afsterBegin')}</td>
-    </tr>
-    <tr><td colspan="2"><div style="height:10px;"></div></td></tr>
+  <table style="width:100%;margin-top:8px;font-size:15px;border-collapse:separate;border-spacing:0 1px;">
+    <tr><td colspan="2" style="font-size:14px;color:#444;font-weight:bold;padding-top:3px;">Afsterving (Ernstig)</td></tr>
+    <tr><td style="padding-right:5px;">Eindstadium</td><td>${inputWithBtn('afsterEind')}</td></tr>
+    <tr><td style="padding-right:5px;">Gevorderd stadium</td><td>${inputWithBtn('afsterGev')}</td></tr>
+    <tr><td style="padding-right:5px;">Beginstadium</td><td>${inputWithBtn('afsterBegin')}</td></tr>
+    <tr><td colspan="2"><div style="height:2px;"></div></td></tr>
     <tr><td colspan="2" style="font-size:14px;color:#444;font-weight:bold;">Bedekkingsgraad (Serieus)</td></tr>
-    <tr>
-      <td style="padding-right:5px;">Eindstadium</td>
-      <td>${inputWithBtn('eind')}</td>
-    </tr>
-    <tr>
-      <td style="padding-right:5px;">Gevorderd stadium</td>
-      <td>${inputWithBtn('gevorderd')}</td>
-    </tr>
-    <tr>
-      <td style="padding-right:5px;">Beginstadium</td>
-      <td>${inputWithBtn('begin')}</td>
-    </tr>
-    <tr><td colspan="2"><div style="height:10px;"></div></td></tr>
+    <tr><td style="padding-right:5px;">Eindstadium</td><td>${inputWithBtn('eind')}</td></tr>
+    <tr><td style="padding-right:5px;">Gevorderd stadium</td><td>${inputWithBtn('gevorderd','overlapGev')}</td></tr>
+    <tr><td style="padding-right:5px;">Beginstadium</td><td>${inputWithBtn('begin','overlapBegin')}</td></tr>
+    <tr><td colspan="2"><div style="height:2px;"></div></td></tr>
     <tr><td colspan="2" style="font-size:14px;color:#444;font-weight:bold;">Groeiontwikkeling (Serieus)</td></tr>
-    <tr>
-      <td style="padding-right:5px;">Eindstadium</td>
-      <td>${inputWithBtn('groeiEind')}</td>
-    </tr>
-    <tr>
-      <td style="padding-right:5px;">Gevorderd stadium</td>
-      <td>
-        <span style="white-space:nowrap;display:inline-flex;align-items:center;">
-          <input type='number' id='groeig' min='0' max='100' style='width:58px;margin-left:2px;' placeholder="%" autocomplete="off">
-          ${quickPickBtnHtml('groeig')}
-          <label style="font-size:13px;margin-left:9px;">
-            <input type="checkbox" id="overlapg" style="margin-right:4px;">Overlap
-          </label>
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td style="padding-right:5px;">Beginstadium</td>
-      <td>
-        <span style="white-space:nowrap;display:inline-flex;align-items:center;">
-          <input type='number' id='groeib' min='0' max='100' style='width:58px;margin-left:2px;' placeholder="%" autocomplete="off">
-          ${quickPickBtnHtml('groeib')}
-          <label style="font-size:13px;margin-left:9px;">
-            <input type="checkbox" id="overlapb" style="margin-right:4px;">Overlap
-          </label>
-        </span>
-      </td>
-    </tr>
-    <tr><td colspan="2"><div style="height:10px;"></div></td></tr>
+    <tr><td style="padding-right:5px;">Gevorderd stadium</td><td>${inputWithBtn('groeig','overlapGroeiGev')}</td></tr>
+    <tr><td style="padding-right:5px;">Beginstadium</td><td>${inputWithBtn('groeib','overlapGroeiBegin')}</td></tr>
+    <tr><td colspan="2"><div style="height:2px;"></div></td></tr>
     <tr>
       <td colspan="2" style="font-size:16px;color:#0a0;font-weight:bold;">
         <span id="zonderGebreken">Zonder gebreken: 100%</span>
       </td>
     </tr>
   </table>
-  <div style='margin-top:12px;margin-bottom:8px;font-size:12px;color:#666;'>Vul de gewenste percentages per rij in. <br>Voor groeiontwikkeling moet je nu altijd handmatig het percentage invullen.</div>
+  <div style='margin-top:5px;margin-bottom:4px;font-size:12px;color:#666;'>Vul de gewenste percentages per rij in.<br>Alleen de rijen waarvan Overlap uit staat tellen mee als “zonder gebreken”.</div>
 `;
 
+// Alleen tellen als overlap uit staat:
 function updateZonderGebreken() {
   var ids = [
-    'afsterEind', 'afsterGev', 'afsterBegin',
-    'eind', 'gevorderd', 'begin',
-    'groeiEind', 'groeig', 'groeib'
+    {id: 'afsterEind'},
+    {id: 'afsterGev'},
+    {id: 'afsterBegin'},
+    {id: 'eind'},
+    {id: 'gevorderd', overlap: 'overlapGev'},
+    {id: 'begin', overlap: 'overlapBegin'},
+    {id: 'groeig', overlap: 'overlapGroeiGev'},
+    {id: 'groeib', overlap: 'overlapGroeiBegin'}
   ];
   var totaal = 0;
-  ids.forEach(function(id) {
-    var el = m.querySelector("#"+id);
+  ids.forEach(function(obj) {
+    var el = m.querySelector("#"+obj.id);
     var val = el ? el.value.trim() : '';
+    if(typeof obj.overlap === "string") {
+      var overlapChecked = m.querySelector("#"+obj.overlap) ? m.querySelector("#"+obj.overlap).checked : false;
+      if(overlapChecked) return;
+    }
     if(val) totaal += parseFloat(val.replace(',','.'))||0;
   });
   var zonder = 100 - totaal;
@@ -187,9 +196,12 @@ function updateZonderGebreken() {
   var el = m.querySelector("#zonderGebreken");
   if(el) el.textContent = tekst;
 }
-
-["afsterEind","afsterGev","afsterBegin","eind","gevorderd","begin","groeiEind","groeig","groeib"].forEach(function(id){
-  m.querySelector("#"+id).addEventListener("input", updateZonderGebreken);
+["afsterEind","afsterGev","afsterBegin","eind","gevorderd","begin","groeig","groeib",
+ "overlapGev","overlapBegin","overlapGroeiGev","overlapGroeiBegin"
+].forEach(function(id){
+  var field = m.querySelector("#"+id);
+  if(field) field.addEventListener("input", updateZonderGebreken);
+  if(field && field.type === "checkbox") field.addEventListener("change", updateZonderGebreken);
 });
 updateZonderGebreken();
 
@@ -247,25 +259,27 @@ btnStart.onclick = function(){
 
   var eind = m.querySelector("#eind").value.trim();
   var gev = m.querySelector("#gevorderd").value.trim();
+  var overlapGev = m.querySelector("#overlapGev").checked;
   var begin = m.querySelector("#begin").value.trim();
+  var overlapBegin = m.querySelector("#overlapBegin").checked;
 
-  var groeiEind = m.querySelector("#groeiEind").value.trim();
   var groeiGev = m.querySelector("#groeig").value.trim();
-  var overlapGev = m.querySelector("#overlapg").checked;
+  var overlapGroeiGev = m.querySelector("#overlapGroeiGev").checked;
   var groeiBegin = m.querySelector("#groeib").value.trim();
-  var overlapBegin = m.querySelector("#overlapb").checked;
+  var overlapGroeiBegin = m.querySelector("#overlapGroeiBegin").checked;
 
   if(
     !afsterEind && !afsterGev && !afsterBegin &&
     !eind && !gev && !begin &&
-    !groeiEind && !groeiGev && !groeiBegin
+    !groeiGev && !groeiBegin
   ){
     alert("Vul ten minste één percentage in.");
     return;
   }
   actSjabloon(
     afsterEind, afsterGev, afsterBegin,
-    eind, gev, begin, groeiEind, groeiGev, overlapGev, groeiBegin, overlapBegin
+    eind, gev, overlapGev, begin, overlapBegin,
+    groeiGev, overlapGroeiGev, groeiBegin, overlapGroeiBegin
   );
   d.body.removeChild(m);
 };
